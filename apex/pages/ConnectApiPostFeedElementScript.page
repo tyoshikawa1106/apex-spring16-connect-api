@@ -1,0 +1,36 @@
+<apex:page >
+    <script type="text/javascript">
+        (function(){
+            // 初期フォーカスクリア
+            beenFocused = true;
+            // Angular.module
+            var app = angular.module('myApp', ['ngMessages']);
+
+            // MainCtrl
+            app.controller('mainCtrl', ["$scope", function($scope) {
+                $scope.result = {};
+
+                // フィード投稿とファイル添付
+                $scope.postFeedElement = function(event) {
+                    event.preventDefault();
+                    // Apex実行
+                    postFeedElementByApex();
+                }
+
+                // Apex実行
+                function postFeedElementByApex() {
+                    ConnectApiPostFeedElementController.postFeedElement(function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.FeedElement postFeedElement --');
+                            console.log(result);
+                            $scope.result = result;
+                            $scope.$apply();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+            }]);
+        })();
+    </script>
+</apex:page>

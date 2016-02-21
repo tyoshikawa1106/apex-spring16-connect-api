@@ -1,0 +1,45 @@
+<apex:page controller="ConnectApiPostFeedElementController" showHeader="true" sidebar="false" id="page">
+    <head>
+        <!-- AngularJS -->
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-messages.js" />
+        <!-- Lightning Design System -->
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS0122, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    </head>
+    <body>
+        <div ng-app="myApp">
+            <div ng-controller="mainCtrl">
+                <div class="slds">
+                    <div class="slds-m-bottom--small">
+                        Spring'16 - ConnectApi.FeedElement postFeedElement<br/>
+                        フィード投稿時にファイル添付できます。(Salesforceにアップロード済みのファイルのみ)
+                    </div>
+                    <div class="slds-box">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">フィード投稿時にファイル添付 (ConnectApi.ChatterFeeds.postFeedElement)</div>
+                        <div class="slds-m-top--small">
+                            <button class="slds-button slds-button--brand" ng-click="postFeedElement($event)" ng-disabled="isLocked">Post!</button>
+                        </div>
+                    </div>
+                    <div class="slds-box slds-m-top--small">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">投稿フィード情報</div>
+                        <ul class="slds-list--dotted">
+                            <li>id : <span ng-bind="result.id" /></li>
+                            <li>createdDate : <span ng-bind="result.createdDate | date:'yyyy-MM-dd HH:mm:ss'" /></li>
+                            <li>feedElementType : <span ng-bind="result.feedElementType" /></li>
+                            <li>type : <span ng-bind="result.type" /></li>
+                            <li>url : <span ng-bind="result.url" /></li>
+                            <li>visibility : <span ng-bind="result.visibility" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-m-top--medium">
+                <a href="http://releasenotes.docs.salesforce.com/ja-jp/spring16/release-notes/rn_connect_in_apex_classes.htm" target="_blank">
+                    Spring'16 リリースノート
+                </a>
+            </div>
+        </div>
+        <apex:include pageName="ConnectApiPostFeedElementScript" />
+    </body>
+</apex:page>

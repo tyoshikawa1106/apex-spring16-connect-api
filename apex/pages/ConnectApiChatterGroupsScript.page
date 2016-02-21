@@ -1,0 +1,87 @@
+<apex:page >
+    <script type="text/javascript">
+        (function(){
+            // 初期フォーカスクリア
+            beenFocused = true;
+            // Angular.module
+            var app = angular.module('myApp', ['ngMessages']);
+
+            // MainCtrl
+            app.controller('mainCtrl', ["$scope", function($scope) {
+                $scope.resultGetBannerPhoto = {};
+                $scope.isLocked = false;
+
+                // 初期処理
+                init();
+
+                // 初期処理
+                function init() {
+                    // ConnectApi.BannerPhoto getBannerPhoto
+                    getBannerPhotoByApex();
+                }
+
+                // グループのバナー写真取得
+                function getBannerPhotoByApex() {
+                    // RemoteAction
+                    ConnectApiChatterGroupsController.getBannerPhoto(function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.ChatterGroups getBannerPhoto --');
+                            console.log(result);
+                            $scope.resultGetBannerPhoto = result;
+                            $scope.isLocked = false;
+                            $scope.$apply();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+
+                // グループのバナー写真の設定
+                $scope.setBannerPhoto = function(event) {
+                    event.preventDefault();
+                    // ConnectApi.ChatterGroups setBannerPhoto
+                    setBannerPhotoByApex();
+                }
+
+                // グループのバナー写真削除
+                function setBannerPhotoByApex() {
+                    // RemoteAction
+                    ConnectApiChatterGroupsController.setBannerPhoto(function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.ChatterGroups setBannerPhoto --');
+                            console.log(result);
+                            getBannerPhotoByApex();
+                            $scope.isLocked = false;
+                            $scope.$apply();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+
+                // グループのバナー写真削除
+                $scope.deleteBannerPhoto = function(event) {
+                    event.preventDefault();
+                    // ConnectApi.ChatterGroups deleteBannerPhoto
+                    deleteBannerPhotoByApex();
+                }
+
+                // グループのバナー写真削除
+                function deleteBannerPhotoByApex() {
+                    // RemoteAction
+                    ConnectApiChatterGroupsController.deleteBannerPhoto(function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.ChatterGroups deleteBannerPhoto --');
+                            console.log(result);
+                            getBannerPhotoByApex();
+                            $scope.isLocked = false;
+                            $scope.$apply();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+            }]);
+        })();
+    </script>
+</apex:page>

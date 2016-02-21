@@ -1,0 +1,58 @@
+<apex:page controller="ConnectApiAnnouncementsController" showHeader="true" sidebar="false" id="page">
+    <head>
+        <!-- AngularJS -->
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-messages.js" />
+        <!-- Lightning Design System -->
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS0122, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    </head>
+    <body>
+        <div ng-app="myApp">
+            <div ng-controller="mainCtrl">
+                <div class="slds">
+                    <div class="slds-m-bottom--small">
+                        Spring'16 - ConnectApi.Announcements.getAnnouncementsのサンプルです。<br/>
+                        Chatterグループのお知らせ情報にアクセスできます。
+                    </div>
+                    <div class="slds-box">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">お知らせの取得 (ConnectApi.Announcements.getAnnouncements)</div>
+                        <ul class="slds-list--dotted">
+                            <li>
+                                announcements
+                                <ul class="slds-list--dotted">
+                                    <li>expirationDate : <span ng-bind="result.announcements[0].expirationDate | date:'yyyy-MM-dd HH:mm:ss'" /></li>
+                                    <li>id : <span ng-bind="result.announcements[0].id" /></li>
+                                    <li>isArchived : <span ng-bind="result.announcements[0].isArchived" /></li>
+                                    <li>sendEmails : <span ng-bind="result.announcements[0].sendEmails" /></li>
+                                    <li>url : <span ng-bind="result.announcements[0].url" /></li>
+                                    <li>
+                                        feedElement
+                                        <ul>
+                                            <li>body.text : <span ng-bind="result.announcements[0].feedElement.body.text" /></li>
+                                            <li>body.isRichText : <span ng-bind="result.announcements[0].feedElement.body.isRichText" /></li>
+                                            <li>photoUrl : <span ng-bind="result.announcements[0].feedElement.photoUrl" /></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>currentPageUrl : <span ng-bind="result.currentPageUrl" /></li>
+                            <li>nextPageUrl  : <span ng-bind="result.nextPageUrl " /></li>
+                            <li>previousPageUrl  : <span ng-bind="result.previousPageUrl " /></li>
+                        </ul>
+                    </div>
+                     <div class="slds-box slds-m-top--medium">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">お知らせの投稿 (ConnectApi.Announcements.postAnnouncement)</div>
+                        <button class="slds-button slds-button--brand" ng-click="post($event)">Post!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-m-top--medium">
+                <a href="http://releasenotes.docs.salesforce.com/ja-jp/spring16/release-notes/rn_connect_in_apex_classes.htm" target="_blank">
+                    Spring'16 リリースノート
+                </a>
+            </div>
+        </div>
+        <apex:include pageName="ConnectApiAnnouncementsScript" />
+    </body>
+</apex:page>

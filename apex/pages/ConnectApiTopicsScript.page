@@ -1,0 +1,41 @@
+<apex:page >
+    <script type="text/javascript">
+        (function(){
+            // 初期フォーカスクリア
+            beenFocused = true;
+            // Angular.module
+            var app = angular.module('myApp', ['ngMessages']);
+
+            // MainCtrl
+            app.controller('mainCtrl', ["$scope", function($scope) {
+                $scope.result = {};
+                $scope.topicName = '';
+                $scope.isLocked = false;
+
+                // トピックの作成
+                $scope.createTopic = function(event) {
+                    event.preventDefault();
+                    $scope.isLocked = true;
+                    // ConnectApi.Topic　createTopic
+                    createTopicByApex();
+                }
+
+                // ConnectApi.Topic　createTopic
+                function createTopicByApex() {
+                    // RemoteAction
+                    ConnectApiTopicsController.createTopic($scope.topicName, function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.Topic createTopic --');
+                            console.log(result);
+                            $scope.result = result;
+                            $scope.isLocked = false;
+                            $scope.$apply();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+            }]);
+        })();
+    </script>
+</apex:page>

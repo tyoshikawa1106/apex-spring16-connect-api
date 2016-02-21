@@ -1,0 +1,61 @@
+<apex:page >
+    <script type="text/javascript">
+        (function(){
+            // 初期フォーカスクリア
+            beenFocused = true;
+            // Angular.module
+            var app = angular.module('myApp', ['ngMessages']);
+
+            // MainCtrl
+            app.controller('mainCtrl', ["$scope", function($scope) {
+                $scope.result = {};
+                
+                // 初期処理
+                init();
+                
+                // 初期処理
+                function init() {
+                    // ConnectApi.Announcements getAnnouncements
+                    getAnnouncementsByApex();
+                };
+
+                // ConnectApi.Announcements getAnnouncements
+                function getAnnouncementsByApex() {
+                    // RemoteAction
+                    ConnectApiAnnouncementsController.getAnnouncements(function(result, event){
+                        if(event.status) {
+                            $scope.result = result;
+                            $scope.$apply();
+                            console.log('-- ConnectApi.Announcements getAnnouncements --');
+                            console.log($scope.result);
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+
+                // お知らせの投稿
+                $scope.post = function(event) {
+                    event.preventDefault();
+                    // ConnectApi.Announcement postAnnouncement
+                    postAnnouncementByApex();
+                }
+
+                // ConnectApi.Announcement postAnnouncement
+                function postAnnouncementByApex() {
+                    // RemoteAction
+                    ConnectApiAnnouncementsController.postAnnouncement(function(result, event){
+                        if(event.status) {
+                            console.log('-- ConnectApi.Announcements postAnnouncement --');
+                            console.log(result);
+                            // ConnectApi.Announcements getAnnouncements
+                            getAnnouncementsByApex();
+                        } else {
+                            alert(event.message);
+                        }
+                    });
+                }
+            }]);
+        })();
+    </script>
+</apex:page>

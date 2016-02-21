@@ -1,0 +1,63 @@
+<apex:page controller="ConnectApiTopicsController" showHeader="true" sidebar="false" id="page">
+    <head>
+        <!-- AngularJS -->
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.js" />
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-messages.js" />
+        <!-- Lightning Design System -->
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS0122, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    </head>
+    <body>
+        <div ng-app="myApp">
+            <div ng-controller="mainCtrl">
+                <div class="slds">
+                    <div class="slds-m-bottom--small">
+                        Spring'16 - ConnectApi.Topics createTopic<br/>
+                        Chatterのトピックを作成できます。
+                    </div>
+                    <div class="slds-box">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">トピックの作成 (ConnectApi.Topics createTopic)</div>
+                        <form name="inputForm" novalidate="true" class="slds-m-horizontal--small">
+                            <div class="slds-form-element slds-is-required" ng-class="{'slds-has-error': inputForm.topicName.$invalid && inputForm.topicName.$dirty}">
+                                <label class="slds-form-element__label" for="accName">トピック名</label>
+                                <div class="slds-form-element__control">
+                                    <input name="topicName" ng-model="topicName" class="slds-input" type="text" required="true" ng-maxlength="40" />
+                                    <div ng-messages="inputForm.topicName.$error" ng-if="inputForm.topicName.$dirty">
+                                        <div ng-message="required" class="slds-form-element__help">値を入力してください</div>
+                                        <div ng-message="maxlength" class="slds-form-element__help">文字数が上限を超えました [Max Length = 40]</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-m-top--medium">
+                                <button class="slds-button slds-button--brand" ng-click="createTopic($event)" ng-disabled="inputForm.$invalid || isLocked">Create Topic!</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="slds-box slds-m-top--small">
+                        <div class="slds-text-heading--medium slds-p-vertical--small">新規登録トピック情報 (ConnectApi.Topics createTopic)</div>
+                        <ul class="slds-list--dotted">
+                            <li>createdDate : <span ng-bind="result.createdDate | date:'yyyy-MM-dd HH:mm:ss'" /></li>
+                            <li>description : <span ng-bind="result.description" /></li>
+                            <li>id : 
+                                <a href="/{{result.id}}" target="_blank">
+                                    <span ng-bind="result.id" />
+                                </a>
+                            </li>
+                            <li>isBeingDeleted : <span ng-bind="result.isBeingDeleted" /></li>
+                            <li>name : <span ng-bind="result.name" /></li>
+                            <li>nonLocalizedName : <span ng-bind="result.nonLocalizedName" /></li>
+                            <li>talkingAbout : <span ng-bind="result.talkingAbout" /></li>
+                            <li>url : <span ng-bind="result.url" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-m-top--medium">
+                <a href="http://releasenotes.docs.salesforce.com/ja-jp/spring16/release-notes/rn_connect_in_apex_classes.htm" target="_blank">
+                    Spring'16 リリースノート
+                </a>
+            </div>
+        </div>
+        <apex:include pageName="ConnectApiTopicsScript" />
+    </body>
+</apex:page>
